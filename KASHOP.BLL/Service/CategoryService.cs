@@ -29,7 +29,7 @@ namespace KASHOP.BLL.Service
         public async Task<List<CategoryResponse>> GetAllCategories()
         {
             // هون ال repository بيرجعلي list of category 
-            var categories = await _categoryRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync(new string[] {nameof(Category.Translations)});
             // هون حولت ال categories اللي جايه من ال repository الى list of category response عشان اقدر ارجعها لل api
             return categories.Adapt<List<CategoryResponse>>();
         }
