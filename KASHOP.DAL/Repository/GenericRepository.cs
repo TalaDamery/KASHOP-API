@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,8 +31,7 @@ namespace KASHOP.DAL.Repository
         public async Task<List<T>> GetAllAsync(string[]? includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
-            //.Include(c => c.Translations).
-            if(includes != null)
+            if (includes != null)
             {
                 foreach (var include in includes)
                 {
@@ -39,7 +39,18 @@ namespace KASHOP.DAL.Repository
                 }
             }
             return await query.ToListAsync();
+        }
 
+        public async Task<T> GetOne(Expression<Func<T,bool>> filter, String[]? includes = null) {
+            IQueryable<T> query = _context.Set<T>();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync(filter);
         }
     }
 }
