@@ -26,6 +26,14 @@ namespace KASHOP.DAL.Repository
             return entity;
         }
 
+        public async Task<bool> DeleteAsync(T entity)
+        {
+            _context.Remove(entity);
+            var affected= await _context.SaveChangesAsync();
+            //هون اذا رجع ترو معناته في تغيير صار في الداتا بيز يعني تم الحذف
+            return affected > 0;
+        }
+
         //select * from categories
 
         public async Task<List<T>> GetAllAsync(string[]? includes = null)
@@ -41,7 +49,7 @@ namespace KASHOP.DAL.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetOne(Expression<Func<T,bool>> filter, String[]? includes = null) {
+        public async Task<T?> GetOne(Expression<Func<T,bool>> filter, String[]? includes = null) {
             IQueryable<T> query = _context.Set<T>();
             if (includes != null)
             {
