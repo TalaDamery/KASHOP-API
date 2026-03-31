@@ -24,6 +24,12 @@ namespace KASHOP.BLL.Service
         {
             var category = request.Adapt<Category>();
             await _categoryRepository.CreateAsync(category);
+
+            //هون بدل ما اضل اعمل هيك عملته بالmapping عشان اختصر الكود
+            //var cat=new CategoryResponse
+            //{
+            //    Category_Id = category.Id
+            //}
             return category.Adapt<CategoryResponse>();
         }
 
@@ -37,7 +43,14 @@ namespace KASHOP.BLL.Service
         public async Task<List<CategoryResponse>> GetAllCategories()
         {
             // هون ال repository بيرجعلي list of category 
-            var categories = await _categoryRepository.GetAllAsync(new string[] { nameof(Category.Translations) });
+            var categories = await _categoryRepository.GetAllAsync(
+                new string[] { 
+                    nameof(Category.Translations) ,
+                    nameof(Category.CreatedBy)
+
+                }   
+            );
+
             // هون حولت ال categories اللي جايه من ال repository الى list of category response عشان اقدر ارجعها لل api
             return categories.Adapt<List<CategoryResponse>>();
         }

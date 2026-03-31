@@ -6,10 +6,12 @@ using KASHOP.DAL.Models;
 using KASHOP.DAL.Repository;
 using KASHOP.PL.Resources;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace KASHOP.PL.Controllers
@@ -29,6 +31,7 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpPost]
+        [Authorize] // هون الفنكشن ما بتشغتل الا لما يكون اليوزر مسجل دخول و عنده توكن صالح
         public async Task<IActionResult> Create(CategoryRequest request)
         {
             var response = await _categoryService.CreateCategory(request);

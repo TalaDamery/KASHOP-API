@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace KASHOP.DAL.Models
 {
-    public class Category : AuditableEntity
+    public class Brand : AuditableEntity
     {
         public int Id { get; set; }
-        public List<CategoryTranslation> Translations { get; set; }
+        public string Logo { get; set; }
 
         public List<Product> Products { get; set; }
+        public List<BrandTranslation> Translations { get; set; }
+
     }
 }
